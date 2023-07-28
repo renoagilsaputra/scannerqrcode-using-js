@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>QR Code Scanner</title>
+    <!-- Add Instascan library -->
+    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+</head>
+
+<body>
+    <video id="preview" width="640" height="480"></video>
+    <script>
+        // Code for QR code scanning
+        // After the <script> tag in the body
+
+        // Get the video element from the DOM
+        const videoElement = document.getElementById('preview');
+
+        // Initialize a new Instascan scanner
+        const scanner = new Instascan.Scanner({ video: videoElement });
+
+        // Add a listener for when a QR code is scanned
+        scanner.addListener('scan', function (content) {
+            alert('Scanned QR code: ' + content);
+            // Here you can do something with the scanned content, like sending it to the server, etc.
+        });
+
+        // Start the scanner by accessing the user's camera
+        Instascan.Camera.getCameras().then(function (cameras) {
+            if (cameras.length > 0) {
+                // Use the rear camera (you can also use the front camera by changing the index)
+                scanner.start(cameras[0]);
+            } else {
+                alert('No cameras found.');
+            }
+        }).catch(function (error) {
+            alert('Error accessing camera:', error);
+        });
+    </script>
+</body>
+
+</html>
